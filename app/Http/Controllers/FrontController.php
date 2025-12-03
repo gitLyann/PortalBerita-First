@@ -35,6 +35,57 @@ class FrontController extends Controller
             // ->take(1)
             ->first();
 
-        return view('front.index', compact('categories', 'articles', 'authors', 'featured_articles', 'bannerads'));
+        // Mengambil artikel dari kategori "Entertainment" yang bukan featured
+        $entertainment_articles = ArticleNews::whereHas('category', function ($query) {
+                $query->where('name', 'Entertainment');
+            })
+            ->where('is_featured', 'not_featured')
+            ->latest()
+            ->take(6)
+            ->get();
+        
+        //Mengambil artikel dari kategori "Entertainment" yang featured
+        $entertainment_featured_articles = ArticleNews::whereHas('category', function ($query) {
+                $query->where('name', 'Entertainment');
+            })
+            ->where('is_featured', 'featured')
+            ->inRandomOrder()
+            ->first();
+
+        //Mengaambil artikel dari kategori "Health" yang bukan featured
+        $health_articles = ArticleNews::whereHas('category', function ($query) {
+                $query->where('name', 'Health');
+            })
+            ->where('is_featured', 'not_featured')
+            ->latest()
+            ->take(6)
+            ->get();
+        
+        //Mengambil artikel dari kategori "Health" yang featured
+        $health_featured_articles = ArticleNews::whereHas('category', function ($query) {
+                $query->where('name', 'Health');
+            })
+            ->where('is_featured', 'featured')
+            ->inRandomOrder()
+            ->first();
+        
+        //Mengambil artikel dari kategori "Automotive" yang bukan featured
+        $automotive_articles = ArticleNews::whereHas('category', function ($query) {
+                $query->where('name', 'Automotive');
+            })
+            ->where('is_featured', 'not_featured')
+            ->latest()
+            ->take(6)
+            ->get(); 
+            
+        //Mengambil artikel dari kategori "Entertainment" yang featured
+        $automotive_featured_articles = ArticleNews::whereHas('category', function ($query) {
+                $query->where('name', 'Automotive');
+            })
+            ->where('is_featured', 'featured')
+            ->inRandomOrder()
+            ->first();
+
+        return view('front.index', compact('categories', 'articles', 'authors', 'featured_articles', 'bannerads', 'entertainment_articles', 'entertainment_featured_articles', 'health_articles', 'health_featured_articles', 'automotive_articles', 'automotive_featured_articles'));
     }
 }
