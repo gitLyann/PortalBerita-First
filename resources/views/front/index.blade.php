@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link href="./output.css" rel="stylesheet" />
-		<link href="./main.css" rel="stylesheet" />
+		<link href="{{ asset('output.css') }}" rel="stylesheet" />
+		<link href="{{ asset('main.css') }}" rel="stylesheet" />
 		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 		<!-- CSS -->
 		<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css" />
@@ -34,48 +34,17 @@
 			</div>
 		</nav>
 		<nav id="Category" class="max-w-[1130px] mx-auto flex justify-center items-center gap-4 mt-[30px]">
-			<a href="categoryPage.html" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
+
+            @foreach ($categories as $category)
+            <a href="{{route('front.category', $category->slug)}}" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
 				<div class="w-6 h-6 flex shrink-0">
-					<img src="assets/images/icons/heart.svg" alt="icon" />
+					<img src="{{ Storage::url($category->icon) }}" alt="icon" />
 				</div>
-				<span>Health</span>
+				<span>{{ $category->name }}</span>
 			</a>
-			<a href="categoryPage.html" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-				<div class="w-6 h-6 flex shrink-0">
-					<img src="assets/images/icons/status-up.svg" alt="icon" />
-				</div>
-				<span>Business</span>
-			</a>
-			<a href="categoryPage.html" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-				<div class="w-6 h-6 flex shrink-0">
-					<img src="assets/images/icons/car.svg" alt="icon" />
-				</div>
-				<span>Automotive</span>
-			</a>
-			<a href="categoryPage.html" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-				<div class="w-6 h-6 flex shrink-0">
-					<img src="assets/images/icons/global.svg" alt="icon" />
-				</div>
-				<span>Entertainment</span>
-			</a>
-			<a href="categoryPage.html" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-				<div class="w-6 h-6 flex shrink-0">
-					<img src="assets/images/icons/coffee.svg" alt="icon" />
-				</div>
-				<span>Foods</span>
-			</a>
-			<a href="categoryPage.html" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-				<div class="w-6 h-6 flex shrink-0">
-					<img src="assets/images/icons/courthouse.svg" alt="icon" />
-				</div>
-				<span>Politic</span>
-			</a>
-			<a href="categoryPage.html" class="rounded-full p-[12px_22px] flex gap-[10px] font-semibold transition-all duration-300 border border-[#EEF0F7] hover:ring-2 hover:ring-[#FF6B18]">
-				<div class="w-6 h-6 flex shrink-0">
-					<img src="assets/images/icons/cup.svg" alt="icon" />
-				</div>
-				<span>Sport</span>
-			</a>
+            @endforeach
+
+
 		</nav>
 		<section id="Featured" class="mt-[30px]">
 			<div class="main-carousel w-full">
@@ -147,42 +116,25 @@
 				<p class="badge-orange rounded-full p-[8px_18px] bg-[#FFECE1] font-bold text-sm leading-[21px] text-[#FF6B18] w-fit">UP TO DATE</p>
 			</div>
 			<div class="grid grid-cols-3 gap-[30px]">
-				<a href="details.html" class="card-news">
+
+                @forelse ($articles as $article)
+				<a href="{{ route('front.details', $article->slug) }}" class="card-news">
 					<div class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[26px_20px] flex flex-col gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 bg-white">
 						<div class="thumbnail-container w-full h-[200px] rounded-[20px] flex shrink-0 overflow-hidden relative">
-							<p class="badge-white absolute top-5 left-5 rounded-full p-[8px_18px] bg-white font-bold text-xs leading-[18px]">SPORT</p>
-							<img src="assets/images/thumbnails/th-cyclist.png" class="object-cover w-full h-full" alt="thumbnail" />
+							<p class="badge-white absolute top-5 left-5 rounded-full p-[8px_18px] bg-white font-bold text-xs leading-[18px]">{{ $article->category->name }}</p>
+							<img src="{{Storage::url($article->thumbnail)}}" class="object-cover w-full h-full" alt="thumbnail" />
 						</div>
 						<div class="card-info flex flex-col gap-[6px]">
-							<h3 class="font-bold text-lg leading-[27px]">Bersepeda dapat membuat diri menjadi lebih baik lagi</h3>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
+							<h3 class="font-bold text-lg leading-[27px]">{{$article->name}}</h3>
+							<p class="text-sm leading-[21px] text-[#A3A6AE]">{{$article->created_at->format('M d, Y')}}</p>
 						</div>
 					</div>
 				</a>
-				<a href="details.html" class="card-news">
-					<div class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[26px_20px] flex flex-col gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 bg-white">
-						<div class="thumbnail-container w-full h-[200px] rounded-[20px] flex shrink-0 overflow-hidden relative">
-							<p class="badge-white absolute top-5 left-5 rounded-full p-[8px_18px] bg-white font-bold text-xs leading-[18px]">ENTERTAINMENT</p>
-							<img src="assets/images/thumbnails/camp.png" class="object-cover w-full h-full" alt="thumbnail" />
-						</div>
-						<div class="card-info flex flex-col gap-[6px]">
-							<h3 class="font-bold text-lg leading-[27px]">Beberapa artis ini merayakan ultah di tengah hutan raya</h3>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-						</div>
-					</div>
-				</a>
-				<a href="details.html" class="card-news">
-					<div class="rounded-[20px] ring-1 ring-[#EEF0F7] p-[26px_20px] flex flex-col gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300 bg-white">
-						<div class="thumbnail-container w-full h-[200px] rounded-[20px] flex shrink-0 overflow-hidden relative">
-							<p class="badge-white absolute top-5 left-5 rounded-full p-[8px_18px] bg-white font-bold text-xs leading-[18px]">POLITIC</p>
-							<img src="assets/images/thumbnails/th-demonstration.png" class="object-cover w-full h-full" alt="thumbnail" />
-						</div>
-						<div class="card-info flex flex-col gap-[6px]">
-							<h3 class="font-bold text-lg leading-[27px]">Terjadi demo pada ibu kota jakarta membuat macet parah</h3>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">12 Jun, 2024</p>
-						</div>
-					</div>
-				</a>
+                @empty
+                <p>Belum ada data terbaru... </p>
+                @endforelse
+
+
 			</div>
 		</section>
 		<section id="Best-authors" class="max-w-[1130px] mx-auto flex flex-col gap-[30px] mt-[70px]">
@@ -194,72 +146,23 @@
 				</h2>
 			</div>
 			<div class="grid grid-cols-6 gap-[30px]">
-				<a href="author.html" class="card-authors">
+
+                @forelse( $authors as $author )
+                <a href="{{ route('front.author', $author->slug) }}" class="card-authors">
 					<div class="rounded-[20px] border border-[#EEF0F7] p-[26px_20px] flex flex-col items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
 						<div class="w-[70px] h-[70px] flex shrink-0 rounded-full overflow-hidden">
-							<img src="assets/images/photos/photo.png" class="object-cover w-full h-full" alt="avatar" />
+							<img src="{{ Storage::url($author->avatar) }}" class="object-cover w-full h-full" alt="avatar" />
 						</div>
 						<div class="flex flex-col gap-1 text-center">
-							<p class="font-semibold">Junior Parrito</p>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">3,492 News</p>
+							<p class="font-semibold">{{ $author->name }}</p>
+							<p class="text-sm leading-[21px] text-[#A3A6AE]">{{ $author->articles->count() }} News</p>
 						</div>
 					</div>
 				</a>
-				<a href="author.html" class="card-authors">
-					<div class="rounded-[20px] border border-[#EEF0F7] p-[26px_20px] flex flex-col items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-						<div class="w-[70px] h-[70px] flex shrink-0 rounded-full overflow-hidden">
-							<img src="assets/images/photos/photo1.png" class="object-cover w-full h-full" alt="avatar" />
-						</div>
-						<div class="flex flex-col gap-1 text-center">
-							<p class="font-semibold">Sabrina Juli</p>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">312 News</p>
-						</div>
-					</div>
-				</a>
-				<a href="author.html" class="card-authors">
-					<div class="rounded-[20px] border border-[#EEF0F7] p-[26px_20px] flex flex-col items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-						<div class="w-[70px] h-[70px] flex shrink-0 rounded-full overflow-hidden">
-							<img src="assets/images/photos/photo2.png" class="object-cover w-full h-full" alt="avatar" />
-						</div>
-						<div class="flex flex-col gap-1 text-center">
-							<p class="font-semibold">Ijan Malawi</p>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">44 News</p>
-						</div>
-					</div>
-				</a>
-				<a href="author.html" class="card-authors">
-					<div class="rounded-[20px] border border-[#EEF0F7] p-[26px_20px] flex flex-col items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-						<div class="w-[70px] h-[70px] flex shrink-0 rounded-full overflow-hidden">
-							<img src="assets/images/photos/photo3.png" class="object-cover w-full h-full" alt="avatar" />
-						</div>
-						<div class="flex flex-col gap-1 text-center">
-							<p class="font-semibold">Rita Putria</p>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">15,398 News</p>
-						</div>
-					</div>
-				</a>
-				<a href="author.html" class="card-authors">
-					<div class="rounded-[20px] border border-[#EEF0F7] p-[26px_20px] flex flex-col items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-						<div class="w-[70px] h-[70px] flex shrink-0 rounded-full overflow-hidden">
-							<img src="assets/images/photos/photo4.png" class="object-cover w-full h-full" alt="avatar" />
-						</div>
-						<div class="flex flex-col gap-1 text-center">
-							<p class="font-semibold">Shayna Xin</p>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">3,492 News</p>
-						</div>
-					</div>
-				</a>
-				<a href="author.html" class="card-authors">
-					<div class="rounded-[20px] border border-[#EEF0F7] p-[26px_20px] flex flex-col items-center gap-4 hover:ring-2 hover:ring-[#FF6B18] transition-all duration-300">
-						<div class="w-[70px] h-[70px] flex shrink-0 rounded-full overflow-hidden">
-							<img src="assets/images/photos/photo5.png" class="object-cover w-full h-full" alt="avatar" />
-						</div>
-						<div class="flex flex-col gap-1 text-center">
-							<p class="font-semibold">Dhi Pakao</p>
-							<p class="text-sm leading-[21px] text-[#A3A6AE]">223 News</p>
-						</div>
-					</div>
-				</a>
+                @empty
+                <p>Belum ada data author...</p>
+                @endforelse
+
 			</div>
 		</section>
 		<section id="Advertisement" class="max-w-[1130px] mx-auto flex justify-center mt-[70px]">
@@ -554,10 +457,10 @@
 			</div>
 		</section>
 
-		<script src="js/two-lines-text.js"></script>
+		<script src="{{ asset('js/two-lines-text.js') }}"></script>
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 		<!-- JavaScript -->
 		<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-		<script src="js/carousel.js"></script>
+		<script src="{{ asset('js/carousel.js') }}"></script>
 	</body>
 </html>
