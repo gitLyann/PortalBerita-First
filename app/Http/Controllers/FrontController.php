@@ -88,4 +88,22 @@ class FrontController extends Controller
 
         return view('front.index', compact('categories', 'articles', 'authors', 'featured_articles', 'bannerads', 'entertainment_articles', 'entertainment_featured_articles', 'health_articles', 'health_featured_articles', 'automotive_articles', 'automotive_featured_articles'));
     }
+
+    public function category(Category $category)
+    {
+        $categories = Category::all();
+
+        $bannerads = BannerAdvertisement::where('is_active', 'active')
+            ->where('type', 'banner')
+            ->inRandomOrder()
+            ->first();
+
+        $articles = ArticleNews::with(['category'])
+            ->where('category_id', $category->id)
+            ->latest()
+            ->paginate(6);
+
+        return view('front.category', compact('categories', 'category', 'articles', 'bannerads'));
+    }
+
 }
