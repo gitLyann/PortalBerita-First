@@ -25,7 +25,7 @@
         </a>
         @endforeach
     </nav>
-
+    <!-- Author Section -->
 	<section id="author" class="max-w-[1130px] mx-auto flex items-center flex-col gap-[30px] mt-[70px]">
 		<div id="title" class="flex items-center gap-[30px]">
 			<h1 class="text-4xl leading-[45px] font-bold">Author News</h1>
