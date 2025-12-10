@@ -43,7 +43,7 @@ class FrontController extends Controller
             ->latest()
             ->take(6)
             ->get();
-        
+
         //Mengambil artikel dari kategori "Entertainment" yang featured
         $entertainment_featured_articles = ArticleNews::whereHas('category', function ($query) {
                 $query->where('name', 'Entertainment');
@@ -60,7 +60,7 @@ class FrontController extends Controller
             ->latest()
             ->take(6)
             ->get();
-        
+
         //Mengambil artikel dari kategori "Health" yang featured
         $health_featured_articles = ArticleNews::whereHas('category', function ($query) {
                 $query->where('name', 'Health');
@@ -68,7 +68,7 @@ class FrontController extends Controller
             ->where('is_featured', 'featured')
             ->inRandomOrder()
             ->first();
-        
+
         //Mengambil artikel dari kategori "Automotive" yang bukan featured
         $automotive_articles = ArticleNews::whereHas('category', function ($query) {
                 $query->where('name', 'Automotive');
@@ -76,8 +76,8 @@ class FrontController extends Controller
             ->where('is_featured', 'not_featured')
             ->latest()
             ->take(6)
-            ->get(); 
-            
+            ->get();
+
         //Mengambil artikel dari kategori "Entertainment" yang featured
         $automotive_featured_articles = ArticleNews::whereHas('category', function ($query) {
                 $query->where('name', 'Automotive');
@@ -104,6 +104,23 @@ class FrontController extends Controller
             ->paginate(6);
 
         return view('front.category', compact('categories', 'category', 'articles', 'bannerads'));
+    }
+
+    public function author(Author $author)
+    {
+        $categories = Category::all();
+
+        $bannerads = BannerAdvertisement::where('is_active', 'active')
+            ->where('type', 'banner')
+            ->inRandomOrder()
+            ->first();
+
+        $articles = ArticleNews::with(['category'])
+            ->where('author_id', $author->id)
+            ->latest()
+            ->paginate(6);
+
+        return view('front.author', compact('categories', 'author', 'articles', 'bannerads'));
     }
 
 }
