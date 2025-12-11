@@ -1,5 +1,6 @@
 @extends('front.master')
 @section('content')
+
 	<body class="font-[Poppins] pb-[72px]">
         <!-- Navbar Section -->
 		<x-navbar/>
@@ -270,7 +271,9 @@
 
 
 	</body>
+
 @endsection
+
 @push('after-styles')
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css" />
 @endpush

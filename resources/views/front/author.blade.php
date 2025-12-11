@@ -1,5 +1,6 @@
 @extends('front.master')
 @section('content')
+
 <body class="font-[Poppins] pb-[83px]">
 	<!-- Navbar Section -->
 	<x-navbar/>
@@ -70,6 +71,7 @@
 		</div>
 	</section>
 </body>
+
 @endsection
 
 @push('after-scripts')
